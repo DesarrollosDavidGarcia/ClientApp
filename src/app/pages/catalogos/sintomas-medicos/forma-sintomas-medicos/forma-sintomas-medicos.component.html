@@ -1,0 +1,49 @@
+<mat-toolbar color="primary">
+  <span>Catálogo de sintomas medicos</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button matTooltip="Cerrar" mat-dialog-close matTooltip='Cerrar'>
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-toolbar>
+<div><br /></div>
+<div fxLayout="row wrap" class="animate__animated animate__fadeIn">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-dialog-content>
+      <form [formGroup]="forma" id="formaMenus" (submit)="guardar()" autocomplete="off">
+        <div fxLayout="row wrap">
+          <mat-form-field fxFlex="auto" appearance="outline">
+            <mat-label>Código</mat-label>
+            <mat-icon matSuffix *ngIf="forma.get('codigo').valid" class="valid-icon">done</mat-icon>
+            <mat-icon matSuffix *ngIf="!forma.get('codigo').valid" class="invalid-icon">edit</mat-icon>
+            <input matInput formControlName="codigo" />
+            <mat-error *ngIf="forma.get('codigo').errors?.required">
+              Campo requerido
+            </mat-error>
+            <mat-error *ngIf="forma.get('codigo').errors?.minlength">
+              El código debe tener al menos 3 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="auto" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <mat-icon matSuffix *ngIf="forma.get('descripcion').valid" class="valid-icon">done</mat-icon>
+            <mat-icon matSuffix *ngIf="!forma.get('descripcion').valid" class="invalid-icon">edit</mat-icon>
+            <input matInput formControlName="descripcion" />
+            <mat-error *ngIf="forma.get('descripcion').errors?.required">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+      </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button mat-dialog-close color="accent">
+        <mat-icon>clear</mat-icon>&nbsp;Cancelar
+      </button>
+      <button mat-raised-button form="formaMenus" color="primary">
+        <mat-icon>save</mat-icon>&nbsp;Guardar
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

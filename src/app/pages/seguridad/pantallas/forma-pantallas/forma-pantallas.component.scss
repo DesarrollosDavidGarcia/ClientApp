@@ -1,0 +1,18 @@
+.mat-toolbar {
+  margin: -24px;
+  margin-bottom: 0;
+  width: auto;
+}
+
+::ng-deep .mat-icon {
+  transition: opacity 0.3s ease-in-out;
+}
+
+::ng-deep .valid-icon {
+  color: green;
+}
+
+::ng-deep .invalid-icon {
+  color: red;
+}
+

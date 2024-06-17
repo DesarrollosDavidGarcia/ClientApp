@@ -1,0 +1,100 @@
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div fxFlex="70" class="animate__animated animate__fadeIn">
+    <mat-card-content>
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel  [expanded]="true" hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Documentos Requeridos para Alta
+            </mat-panel-title>
+            <mat-panel-description>
+              Es necesario enviar la siguiente documentación digital, previamente a su contratación
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div fxLayout="row wrap" fxLayoutGap="10px">
+            <div fxFlex="30" class="m-5" *ngFor="let categoria of listaDocumentosParaAlta">
+              <mat-form-field appearance="outline"  class="m-5">
+                <mat-label>{{ categoria.nombre }}</mat-label>
+                <div matSuffix style="display:flex">
+                  <mat-icon (click)="_fileInput.click()" style="cursor:pointer"
+                    matTooltip='Adjuntar documento'>attach_file</mat-icon>
+                  <mat-icon (click)="eliminarDocumento(categoria)" style="cursor:pointer"
+                    matTooltip='Limpiar'>delete_forever</mat-icon>
+                  <mat-icon *ngIf="categoria.esCargado && categoria.documentoSeleccionadoId != undefined"
+                    (click)="descargarDocumento(categoria.documentoSeleccionadoId, categoria.seguimientoCandidatoId, categoria.nombreDocumentoSeleccionado)"
+                    style="cursor:pointer" matTooltip='Descargar'>download</mat-icon>
+
+                  <mat-icon *ngIf="categoria.esCargado" class="valid-icon" matTooltip='Correcto'>done</mat-icon>
+                  <mat-icon *ngIf="!categoria.esCargado" class="invalid-icon"
+                    matTooltip='No ha adjuntado ningun documento'>clear</mat-icon>
+                </div>
+                <input placeholder="Adjuntar Archivo: {{ categoria.nombre }}"
+                  [value]="categoria.nombreDocumentoSeleccionado??''" matInput />
+                <input #_fileInput type="file" (change)="adjuntarDocumento($event, categoria)" accept="*" hidden>
+                <mat-hint align="start" style="font-size: 9px;"><strong>{{ categoria.descripcion }}</strong></mat-hint>
+                <mat-error>
+                  Campo requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel  hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Documentos Firmados
+            </mat-panel-title>
+            <mat-panel-description>
+              Es necesario enviar la siguiente documentación digital, previamente a su contratación
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div fxLayout="row wrap" fxLayoutGap="10px">
+
+
+            <div fxFlex="43" *ngFor="let categoria of listaDocumentosParaFirmar">
+
+
+              <button mat-raised-button (click)="descargarDocumentoPrivacidad(categoria.codigo)" matTooltip='Aviso Privacidad'>
+                <mat-icon>cloud_download</mat-icon>&nbsp; Descargar {{categoria.nombre}}
+              </button>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ categoria.nombre }}</mat-label>
+                <div matSuffix style="display:flex">
+                  <mat-icon (click)="_fileInput.click()" style="cursor:pointer"
+                    matTooltip='Adjuntar documento'>attach_file</mat-icon>
+                  <mat-icon (click)="eliminarDocumento(categoria)" style="cursor:pointer"
+                    matTooltip='Limpiar'>delete_forever</mat-icon>
+                  <mat-icon *ngIf="categoria.esCargado && categoria.documentoSeleccionadoId != undefined"
+                    (click)="descargarDocumento(categoria.documentoSeleccionadoId, categoria.seguimientoCandidatoId, categoria.nombreDocumentoSeleccionado)"
+                    style="cursor:pointer" matTooltip='Descargar'>download</mat-icon>
+
+                  <mat-icon *ngIf="categoria.esCargado" class="valid-icon" matTooltip='Correcto'>done</mat-icon>
+                  <mat-icon *ngIf="!categoria.esCargado" class="invalid-icon"
+                    matTooltip='No ha adjuntado ningun documento'>clear</mat-icon>
+                </div>
+                <input placeholder="Adjuntar Archivo: {{ categoria.nombre }}"
+                  [value]="categoria.nombreDocumentoSeleccionado??''" matInput />
+                <input #_fileInput type="file" (change)="adjuntarDocumento($event, categoria)" accept="*" hidden>
+                <mat-hint align="start" style="font-size: 10px;"><strong>{{ categoria.descripcion }}</strong></mat-hint>
+                <mat-error>
+                  Campo requerido
+                </mat-error>
+
+              </mat-form-field>
+            </div>
+
+          </div>
+        </mat-expansion-panel>
+
+
+
+
+      </mat-accordion>
+
+    </mat-card-content>
+
+
+  </div>
+</div>

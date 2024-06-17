@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row justify-content-left">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="login-register" style="background-image:url(assets/images/background/login-register.jpg)">
+        <div class="login-register-box">
+          <mat-card class="animate__animated animate__fadeIn">
+            <mat-card-content>
+              <form [formGroup]="forma" (ngSubmit)="onSubmit()">
+                <div class="text-center">
+                  <br /> <br />
+                  <img alt="homepage" src="assets/images/logo-icon.png">
+                  <br /> <br />
+                  <h5 class="m-t-0">Bienvenido ingresa tu cuenta</h5>
+                  <span class="f-s-14 d-block mat-body-1 m-t-8">Northware-OpenService</span>
+                </div>
+                <div fxLayout="row wrap">
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-form-field fxFlex="auto" appearance="outline">
+                      <mat-label>Email</mat-label>
+                      <mat-icon matSuffix>email</mat-icon>
+                      <input matInput formControlName="usuario" />
+                      <mat-error *ngIf="f.usuario.touched && f.usuario.errors">
+                        <div *ngIf="f.usuario.errors.required">
+                          Campo requerido
+                        </div>
+                        <div *ngIf="this.forma.get('usuario').hasError('email')">
+                          Email no valido... verifique nuevamente
+                        </div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-form-field fxFlex="auto" appearance="outline">
+                      <mat-label>Password</mat-label>
+                      <mat-icon matSuffix>lock</mat-icon>
+                      <input matInput formControlName="password" />
+                      <mat-error *ngIf="f.password.touched && f.password.errors">
+                        <div *ngIf="f.password.errors.required">
+                          Contraseña requerida
+                        </div>
+                        <div *ngIf="f.password.errors.pattern && this.forma.get('password').hasError('minlength')">
+                          Contraseña no valida...  Ingrese una contraseña minima 8 caracteres
+                        </div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <br />
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" class="text-center">
+                    <mat-checkbox color="warn">Recordar contraseña</mat-checkbox>
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <br />
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" class="text-center">
+                    <a [routerLink]="['/autenticacion/olvidocontrasena']" class="link">¿Olvido su contraseña?</a>
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <br />
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <div class="justify-content-center">
+                      <ngx-recaptcha2 #captchaElem
+                      [siteKey]="key"
+                      (reset)="handleReset()"
+                      (expire)="handleExpire()"
+                      (load)="handleLoad()"
+                      (success)="handleSuccess($event)"
+                      [useGlobalDomain]="false"
+                      formControlName="recaptcha">
+                    </ngx-recaptcha2>
+                    </div>
+
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <button mat-raised-button color="primary" class="btn-block btn-lg m-t-20 m-b-20" type="submit"
+                      [disabled]="!forma.valid">
+                      <mat-icon matPrefix>login</mat-icon>
+                       Acceder
+                    </button>
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <br />
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="text-center">
+                    <span>¿Aún no tiene una cuenta?
+                      <a [routerLink]="['/autenticacion/registro']" class="text-info link">Registrarse</a>
+                    </span>
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <br />
+                  </div>
+                  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="text-center">
+                    <span>Version 1.0.0
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

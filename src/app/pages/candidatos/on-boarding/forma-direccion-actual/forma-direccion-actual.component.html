@@ -1,0 +1,276 @@
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div fxFlex="70" class="animate__animated animate__fadeIn">
+    <mat-card-content>
+      <form [formGroup]="formaDireccionActual" id="formaDireccionActual" autocomplete="off">
+        <strong>Dirección Actual</strong>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="auto" fxFlex.sm="auto" fxFlex="auto">
+            <mat-form-field appearance="outline">
+              <mat-label>Calle</mat-label>
+              <mat-icon matSuffix *ngIf="!formaDireccionActual.get('calle').valid && formaDireccionActual.get('calle').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="formaDireccionActual.get('calle').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="calle" />
+              <mat-error *ngIf="formaDireccionActual.get('calle').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="13" fxFlex.sm="100" fxFlex="13">
+            <mat-form-field appearance="outline">
+              <mat-label>No. Exterior</mat-label>
+              <mat-icon matSuffix *ngIf="formaDireccionActual.get('noExterior').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="noExterior" />
+
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="13" fxFlex.sm="100" fxFlex="13">
+            <mat-form-field appearance="outline">
+              <mat-label>No. Interior</mat-label>
+              <mat-icon matSuffix *ngIf="formaDireccionActual.get('noInterior').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="noInterior" />
+              <mat-error>
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="13" fxFlex.sm="13" fxFlex="13">
+            <mat-form-field appearance="outline">
+              <mat-label>Codigo Postal</mat-label>
+              <mat-icon matSuffix *ngIf="formaDireccionActual.get('codigoPostal').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="codigoPostal" />
+              <mat-error>
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="País" [matAutocomplete]="pais" formControlName="direccionPaisDescripcion"
+                (input)="buscarPaisActual($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionPaisActual()" style="cursor:pointer" matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="formaDireccionActual.get('direccionPaisDescripcion').valid && formaDireccionActual.get('direccionPaisId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #pais="matAutocomplete" (optionSelected)="paisSeleccionadoActual($event.option.value)">
+                <mat-option *ngFor="let e of listaPaises | filtro:textoBuscarPaisesActual:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="formaDireccionActual.get('direccionPaisDescripcion').errors?.required && formaDireccionActual.get('direccionPaisId').errors?.required">
+                Seleccione un país
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Estado" [matAutocomplete]="estado"
+                formControlName="direccionEstadoDescripcion" (input)="buscarEstadoActual($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionEstadoActual()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="formaDireccionActual.get('direccionEstadoDescripcion').valid && formaDireccionActual.get('direccionEstadoId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #estado="matAutocomplete" (optionSelected)="estadoSeleccionadoActual($event.option.value)">
+                <mat-option *ngFor="let e of listaEstados | filtro:textoBuscarEstadosActual:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="formaDireccionActual.get('direccionEstadoDescripcion').errors?.required && formaDireccionActual.get('direccionEstadoId').errors?.required">
+                Seleccione un estado
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Ciudad" [matAutocomplete]="ciudad"
+                formControlName="direccionCiudadDescripcion" (input)="buscarCiudadActual($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionCiudadActual()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="formaDireccionActual.get('direccionCiudadDescripcion').valid && formaDireccionActual.get('direccionCiudadId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #ciudad="matAutocomplete" (optionSelected)="ciudadSeleccionadoActual($event.option.value)">
+                <mat-option *ngFor="let e of listaCiudad | filtro:textoBuscarCiudadActual:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="formaDireccionActual.get('direccionCiudadDescripcion').errors?.required && formaDireccionActual.get('direccionCiudadId').errors?.required">
+                Seleccione una ciudad
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Colonia</mat-label>
+              <mat-icon matSuffix *ngIf="!formaDireccionActual.get('colonia').valid && formaDireccionActual.get('colonia').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="formaDireccionActual.get('colonia').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="colonia" />
+              <mat-error *ngIf="formaDireccionActual.get('colonia').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      <form [formGroup]="formaDireccionFiscal" id="formaDireccionFiscal" autocomplete="off">
+        <strong>Dirección Fiscal</strong>&nbsp;&nbsp; <mat-slide-toggle (change)="habilitarFormDireccionFiscal($event)">
+          <p style="font-size: 9px;">Si es la misma que la direccion actual, habilitar el boton. De lo contrario
+            completar.</p>
+        </mat-slide-toggle>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="auto" fxFlex.sm="auto" fxFlex="auto">
+            <mat-form-field appearance="outline">
+              <mat-label>Calle</mat-label>
+              <mat-icon matSuffix *ngIf="!formaDireccionFiscal.get('fiscalCalle').valid && formaDireccionFiscal.get('fiscalCalle').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="formaDireccionFiscal.get('fiscalCalle').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="fiscalCalle" />
+              <mat-error *ngIf="formaDireccionFiscal.get('fiscalCalle').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="13" fxFlex.sm="100" fxFlex="13">
+            <mat-form-field appearance="outline">
+              <mat-label>No. Exterior</mat-label>
+              <mat-icon matSuffix *ngIf="formaDireccionFiscal.get('fiscalNoExterior').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="fiscalNoExterior" />
+
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="13" fxFlex.sm="100" fxFlex="13">
+            <mat-form-field appearance="outline">
+              <mat-label>No. Interior</mat-label>
+              <mat-icon matSuffix *ngIf="formaDireccionFiscal.get('fiscalNoInterior').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="fiscalNoInterior" />
+              <mat-error>
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="13" fxFlex.sm="13" fxFlex="13">
+            <mat-form-field appearance="outline">
+              <mat-label>Codigo Postal</mat-label>
+              <mat-icon matSuffix *ngIf="formaDireccionFiscal.get('fiscalCodigoPostal').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="fiscalCodigoPostal" />
+              <mat-error>
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="País" [matAutocomplete]="paisFiscal"
+                formControlName="fiscalDireccionPaisDescripcion" (input)="buscarPaisFiscal($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionPaisFiscal()" style="cursor:pointer" matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon
+                  *ngIf="formaDireccionFiscal.get('fiscalDireccionPaisDescripcion').valid && formaDireccionFiscal.get('fiscalDireccionPaisId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #paisFiscal="matAutocomplete" (optionSelected)="paisSeleccionadoFiscal($event.option.value)">
+                <mat-option *ngFor="let e of listaPaises | filtro:textoBuscarPaisesFiscal:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="formaDireccionFiscal.get('fiscalDireccionPaisDescripcion').errors?.required && formaDireccionFiscal.get('fiscalDireccionPaisId').errors?.required">
+                Seleccione un país
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Estado" [matAutocomplete]="estadoFiscal"
+                formControlName="fiscalDireccionEstadoDescripcion" (input)="buscarEstadoFiscal($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionEstadoFiscal()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon
+                  *ngIf="formaDireccionFiscal.get('fiscalDireccionEstadoDescripcion').valid && formaDireccionFiscal.get('fiscalDireccionEstadoId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #estadoFiscal="matAutocomplete" (optionSelected)="estadoSeleccionadoFiscal($event.option.value)">
+                <mat-option *ngFor="let e of listaEstados | filtro:textoBuscarEstadosFiscal:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="formaDireccionFiscal.get('fiscalDireccionEstadoDescripcion').errors?.required && formaDireccionFiscal.get('fiscalDireccionEstadoId').errors?.required">
+                Seleccione un estado
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Ciudad" [matAutocomplete]="ciudadFiscal"
+                formControlName="fiscalDireccionCiudadDescripcion" (input)="buscarCiudadFiscal($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionCiudadFiscal()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon
+                  *ngIf="formaDireccionFiscal.get('fiscalDireccionCiudadDescripcion').valid && formaDireccionFiscal.get('fiscalDireccionCiudadId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #ciudadFiscal="matAutocomplete" (optionSelected)="ciudadSeleccionadoFiscal($event.option.value)">
+                <mat-option *ngFor="let e of listaCiudad | filtro:textoBuscarCiudadFiscal:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="formaDireccionFiscal.get('fiscalDireccionCiudadDescripcion').errors?.required && formaDireccionFiscal.get('fiscalDireccionCiudadId').errors?.required">
+                Seleccione una ciudad
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="25" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Colonia</mat-label>
+              <mat-icon matSuffix *ngIf="!formaDireccionFiscal.get('fiscalColonia').valid && formaDireccionFiscal.get('fiscalColonia').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="formaDireccionFiscal.get('fiscalColonia').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="fiscalColonia" />
+              <mat-error *ngIf="formaDireccionFiscal.get('fiscalColonia').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+
+
+  </div>
+</div>

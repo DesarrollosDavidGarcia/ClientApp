@@ -1,0 +1,200 @@
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div fxFlex="100" class="animate__animated animate__fadeIn">
+    <mat-card-content>
+      <div>
+        <mat-slide-toggle (change)="habilitaTablaHCP($event)">
+          <p>(Preexistencias) ¿Ha padecido usted alguna enfermedad o sintoma de riesgo mayor?
+            completar.</p>
+        </mat-slide-toggle>
+      </div>
+
+      <div fxLayout="column">
+        <table mat-table class="full-width-table animate__animated animate__fadeIn" [dataSource]="fuenteDatosHCP"
+          matSort aria-label="Elements">
+          <ng-container matColumnDef="noLinea">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center !important;">No.</th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" style="text-align: center !important;">{{row.linea}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="enfermedad">
+            <th mat-header-cell *matHeaderCellDef>
+              Enfermedad
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input class="colorFuente" matInput [value]="row.enfermedad" (click)="$event.stopPropagation()"
+                  [disabled]="!habilitaContenidoTablaHCP" (change)="actualizaLineaHistorialClinicoPersonal(
+                      row.linea,
+                      $event.target.value,
+                      row.fechaSintomas,
+                      row.esSintomaActual,
+                      row.tratamiento
+                       )" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fechaSintomas">
+            <th mat-header-cell *matHeaderCellDef>
+              Fecha del primer síntoma
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 96%;">
+                <input placeholder="Seleccione una fecha" matInput [matDatepicker]="fechaPrimerSintoma"
+                  (click)="$event.stopPropagation()" (dateChange)="actualizaLineaHistorialClinicoPersonal(
+                  row.linea,
+                  row.enfermedad,
+                  $event.target.value,
+                  row.esSintomaActual,
+                  row.tratamiento
+                       )" [value]="row.fechaSintomas" [readonly]="true" [disabled]="!habilitaContenidoTablaHCP">
+                <mat-datepicker-toggle matSuffix [for]="fechaPrimerSintoma"></mat-datepicker-toggle>
+                <mat-datepicker #fechaPrimerSintoma></mat-datepicker>
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="esSintomaActual">
+            <th mat-header-cell *matHeaderCellDef>
+              Actual
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+
+              <mat-slide-toggle style="width: 10%;" [checked]=" row.esSintomaActual" (change)="actualizaLineaHistorialClinicoPersonal(
+                row.linea,
+                row.enfermedad,
+                row.fechaSintomas,
+                $event.checked,
+                row.tratamiento
+                )" [disabled]="!habilitaContenidoTablaHCP">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="tratamiento">
+            <th mat-header-cell *matHeaderCellDef>
+              Tratamiento
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 96%;">
+                <input class="colorFuente" matInput [value]="row.tratamiento" (click)="$event.stopPropagation()"
+                  (change)="actualizaLineaHistorialClinicoPersonal(
+                  row.linea,
+                  row.enfermedad,
+                  row.fechaSintomas,
+                  row.esSintomaActual,
+                  $event.target.value
+                  )" [disabled]="!habilitaContenidoTablaHCP" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="contenido-centrado" style="width: 200px;">Acciones
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" class="contenido-centrado" style="width: 150px;">
+              <button mat-mini-fab color="primary" matTooltip="Agregar nuevo"
+                (click)="agregarLineaHistorialClinicoPersonal()" [disabled]="!habilitaContenidoTablaHCP">
+                <mat-icon>add</mat-icon>
+              </button>&nbsp;
+              <button mat-mini-fab color="primary" matTooltip="Eliminar"
+                (click)="removerLineaHistorialClinicoPersonal(row.linea)" [disabled]="!habilitaContenidoTablaHCP">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnasMostradasHistorialClinicoPersonal"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnasMostradasHistorialClinicoPersonal"></tr>
+        </table>
+      </div>
+      <div>
+        <br>
+        <mat-slide-toggle (change)="habilitaTablaHCF($event)">
+          <p>(Historia Familiar) ¿Han padecido sus padres o hermanos alguna enfermedad o síntoma de riesgo mayor?
+            completar.</p>
+        </mat-slide-toggle>
+        <br>
+      </div>
+      <div fxLayout="column">
+        <table mat-table class="full-width-table animate__animated animate__fadeIn" [dataSource]="fuenteDatosHCF"
+          matSort aria-label="Elements">
+          <ng-container matColumnDef="noLinea">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center !important;">No.</th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" style="text-align: center !important;">{{row.linea}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="parentesco">
+            <th mat-header-cell *matHeaderCellDef>
+              Parentesco
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 97%;">
+                <input matInput placeholder="Parentescos" [matAutocomplete]="parentesco"
+                  [value]="row.parentescoDescripcion" (input)="buscarParentesco($event)"
+                  [disabled]="!habilitaContenidoTablaHCF">
+                <mat-icon matPrefix>search</mat-icon>
+                <div matSuffix style="display:flex">
+                  <mat-icon (click)="limpiarSeleccionParentesco(row.linea)" style="cursor:pointer"
+                    matTooltip='Limpiar'>clear</mat-icon>
+                </div>
+                <mat-autocomplete #parentesco="matAutocomplete"
+                  (optionSelected)="parentescoSeleccionado(row.linea, $event.option.value)">
+                  <mat-option *ngFor="let e of listaParentescos | filtro:textoBuscarParentesco:'descripcion'"
+                    [value]="e">
+                    <span>{{e.descripcion}}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error>
+                  {{errorRelacionParental}}
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="sintoma">
+            <th mat-header-cell *matHeaderCellDef>
+              Sintoma/Enfermedad
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 97%;">
+                <input class="colorFuente" matInput [value]="row.enfermedadSintoma" (click)="$event.stopPropagation()"
+                  [disabled]="!habilitaContenidoTablaHCF" (change)="actualizaLineaHistorialClinicoFamiliar(
+                    row.linea,
+                    row.parentescoId,
+                    row.parentescoDescripcion,
+                    $event.target.value
+                       )" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="contenido-centrado" style="width: 200px;">Acciones
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" class="contenido-centrado" style="width: 150px;">
+              <button mat-mini-fab color="primary" matTooltip="Agregar nuevo"
+                (click)="agregarLineaHistorialClinicoFamiliar()" [disabled]="!habilitaContenidoTablaHCF">
+                <mat-icon>add</mat-icon>
+              </button>&nbsp;
+              <button mat-mini-fab color="primary" matTooltip="Eliminar"
+                (click)="removerLineaHistorialClinicoFamiliar(row.linea)" [disabled]="!habilitaContenidoTablaHCF">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnasMostradasHistorialFamiliar"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnasMostradasHistorialFamiliar"></tr>
+        </table>
+      </div>
+
+      <div fxLayout="column">
+        <br>
+        <p>Seleccione los sintomas que presente habitualmente</p>
+      </div>
+      <div fxLayout="column">
+        <div class="checkbox-container">
+          <div *ngFor="let sintoma of listaSintomasMedicos" class="checkbox-column">
+            <mat-checkbox [checked]="sintoma.aplica" (change)="agregarSintoma(sintoma, $event)">{{ sintoma.descripcion
+              }}</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </div>
+</div>

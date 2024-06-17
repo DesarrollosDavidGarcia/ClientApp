@@ -1,0 +1,35 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+
+    <mat-card>
+      <mat-toolbar color="primary">
+        <mat-toolbar-row class="toolbarBack">
+          <mat-card-title>Catálogo de Bancos</mat-card-title>
+          <span></span>
+          <span class="example-spacer"></span>
+          <span>
+            <button mat-icon-button (click)="abrirForma()" matTooltip='Nuevo'>
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="importar()" matTooltip='Importar'>
+              <mat-icon>cloud_upload</mat-icon>
+            </button>
+            <button mat-icon-button (click)="descargarExcel()" matTooltip='Descargar'>
+              <mat-icon>cloud_download</mat-icon>
+            </button>
+          </span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Buscar por: </mat-label>
+          <mat-icon matSuffix (click)="limpiarFiltro()" style="cursor:pointer" matTooltip="Limpiar">clear</mat-icon>
+          <input matInput (keyup)="filtrar($event.target.value)" placeholder=" Código  /  Descripción " #filtro>
+        </mat-form-field>
+        <div class="responsive-table">
+       
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

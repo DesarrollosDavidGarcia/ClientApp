@@ -1,0 +1,197 @@
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div fxFlex="70" class="animate__animated animate__fadeIn">
+    <form [formGroup]="forma" id="formaGenerales" autocomplete="off">
+      <mat-card-content>
+
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-label><strong>¿Fuma?</strong></mat-label><br>
+            <mat-radio-group aria-label="fuma" (change)="aplicaSiFuma($event)">
+              <mat-radio-button [checked]="forma.get('fuma').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="forma.get('fuma').value != true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('fuma').valid" class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('fuma').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Desde hace</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('fumaDesde').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('fumaDesde').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="Indicar tiempo (meses/años)" matInput formControlName="fumaDesde" />
+              <mat-error *ngIf="forma.get('fumaDesde').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Frecuencia y cantidad</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('cigarrosDiarios').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('cigarrosDiarios').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="Cigarros al día" matInput formControlName="cigarrosDiarios" />
+              <mat-error *ngIf="forma.get('cigarrosDiarios').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-label><strong>¿Hace uso de bebidas alcohólicas?</strong></mat-label><br>
+            <mat-radio-group aria-label="aplicaBebibasAlcolicas" (change)="aplicaBebibasAlcolicas($event)">
+              <mat-radio-button [checked]="forma.get('aplicaBebibasAlcolicas').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="forma.get('aplicaBebibasAlcolicas').value != true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('aplicaBebibasAlcolicas').valid" class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('aplicaBebibasAlcolicas').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Desde hace</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('bebidasAlcoholicasDesde').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('bebidasAlcoholicasDesde').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="Indicar tiempo (meses/años)" matInput formControlName="bebidasAlcoholicasDesde" />
+              <mat-error *ngIf="forma.get('bebidasAlcoholicasDesde').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Frecuencia y cantidad</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('bebidasAlcoholicasDiarias').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('bebidasAlcoholicasDiarias').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="Cigarros al día" matInput formControlName="bebidasAlcoholicasDiarias" />
+              <mat-error *ngIf="forma.get('bebidasAlcoholicasDiarias').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="25">
+            <mat-form-field appearance="outline">
+              <mat-label>Tazas del café al día</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('tazasCafe').valid && forma.get('tazasCafe').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('tazasCafe').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="1" matInput formControlName="tazasCafe" type="number" />
+              <mat-error *ngIf="forma.get('tazasCafe').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-label><strong>¿Hace uso de alguna sustancia nociva para la salud? (narcótica/alucinógena)</strong></mat-label><br>
+            <mat-radio-group aria-label="aplicaSustanciaNociva" (change)="aplicaSustanciaNociva($event)">
+              <mat-radio-button [checked]="forma.get('aplicaSustanciaNociva').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="forma.get('aplicaSustanciaNociva').value != true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('aplicaSustanciaNociva').valid" class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('aplicaSustanciaNociva').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="45">
+            <mat-form-field appearance="outline">
+              <mat-label>¿Cuál?</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('sustanciaNociva').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('sustanciaNociva').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="Permitida/prescrita/No permitida/No preescrita" matInput formControlName="sustanciaNociva" />
+              <mat-error *ngIf="forma.get('sustanciaNociva').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="15">
+            <mat-form-field appearance="outline">
+              <mat-label>Desde hace</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('tiempoUsoSustanciaNociva').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('tiempoUsoSustanciaNociva').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="(meses/años)" matInput formControlName="tiempoUsoSustanciaNociva" />
+              <mat-error *ngIf="forma.get('tiempoUsoSustanciaNociva').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-label><strong>¿Consume algún tipo de droga con o sin prescripción médica</strong></mat-label><br>
+            <mat-radio-group aria-label="aplicaDroga" (change)="aplicaDroga($event)">
+              <mat-radio-button [checked]="forma.get('aplicaDroga').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="forma.get('aplicaDroga').value != true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('aplicaDroga').valid" class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('aplicaDroga').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="30">
+            <mat-form-field appearance="outline">
+              <mat-label>¿Cuál?</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('tipoDroga').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('tipoDroga').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="tipoDroga" />
+              <mat-error *ngIf="forma.get('tipoDroga').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="20">
+            <mat-form-field appearance="outline">
+              <mat-label>Desde hace</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('tiempoUsoDroga').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('tiempoUsoDroga').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="(meses/años)" matInput formControlName="tiempoUsoDroga" />
+              <mat-error *ngIf="forma.get('tiempoUsoDroga').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="20">
+            <mat-form-field appearance="outline">
+              <mat-label>¿Motivo del consumo?</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('motivoConsumaDroga').hasError('required')"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="!forma.get('motivoConsumaDroga').hasError('required')"
+                class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="motivoConsumaDroga" />
+              <mat-error *ngIf="forma.get('motivoConsumaDroga').hasError('required')">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </mat-card-content>
+
+    </form>
+  </div>
+</div>

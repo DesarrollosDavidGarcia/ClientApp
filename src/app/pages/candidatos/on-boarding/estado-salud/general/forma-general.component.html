@@ -1,0 +1,186 @@
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div fxFlex="85" class="animate__animated animate__fadeIn">
+    <form [formGroup]="forma" id="formaGenerales" autocomplete="off">
+      <mat-card-content>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="25">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo Sangre y Factor RH</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('tipoSangreFactor').valid && forma.get('tipoSangreFactor').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('tipoSangreFactor').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="Ejemplo: O+" matInput formControlName="tipoSangreFactor" />
+              <mat-error *ngIf="forma.get('tipoSangreFactor').errors?.required">
+                Campo requerido
+              </mat-error>
+              <mat-error *ngIf="forma.get('tipoSangreFactor').errors?.pattern">
+                El campo tipo sangre y factor es incorrecto.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="20">
+            <mat-form-field appearance="outline">
+              <mat-label>Peso (Kgs)</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('peso').valid && forma.get('peso').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('peso').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="Ejemplo: 80 Kgs" matInput formControlName="peso" type="number" />
+              <mat-error *ngIf="forma.get('peso').errors?.required">
+                Campo requerido
+              </mat-error>
+              <mat-error *ngIf="forma.get('peso').errors?.min">
+                El valor debe ser mayor a 20 (kg)
+              </mat-error>
+              <mat-error *ngIf="forma.get('peso').errors?.max">
+                El valor debe ser menor a 300 (kg)
+              </mat-error>
+              <mat-error *ngIf="forma.get('peso').errors?.pattern">
+                El valor debe ser un número decimal válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="20">
+            <mat-form-field appearance="outline">
+              <mat-label>Estatura (Mts)</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('estatura').valid && forma.get('estatura').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('estatura').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="Ejemplo: 1.75 mts" matInput formControlName="estatura" type="number" />
+              <mat-error *ngIf="forma.get('estatura').errors?.required">
+                Campo requerido
+              </mat-error>
+              <mat-error *ngIf="forma.get('estatura').errors?.min">
+                El valor debe ser mayor a 0 (mts)
+              </mat-error>
+              <mat-error *ngIf="forma.get('estatura').errors?.max">
+                El valor debe ser menor a 3 (mts)
+              </mat-error>
+              <mat-error *ngIf="forma.get('estatura').errors?.pattern">
+                El valor debe ser un número decimal válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de ultimo examen medico</mat-label>
+              <input matInput [matDatepicker]="fechaUltimoExamenMedico" formControlName="fechaUltimoExamenMedico"
+                [readonly]="true">
+              <mat-datepicker-toggle matSuffix [for]="fechaUltimoExamenMedico"></mat-datepicker-toggle>
+              <mat-datepicker #fechaUltimoExamenMedico></mat-datepicker>
+              <mat-error
+                *ngIf="forma.get('fechaUltimoExamenMedico').errors?.required && forma.get('fechaUltimoExamenMedico').errors?.required">
+                Seleccione su ultima fecha de examen medico
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="50">
+            <mat-label><strong>¿Consideras que tu sangre es saludable para realizar donaciones?</strong></mat-label><br>
+            <mat-radio-group aria-label="seleccione si aplica para donaciones" (change)="aplicaDonaciones($event)">
+              <mat-radio-button [checked]="forma.get('aplicaDonaciones').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="!forma.get('aplicaDonaciones').value == true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('aplicaDonaciones').valid " class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('aplicaDonaciones').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-form-field appearance="outline">
+              <mat-label>¿Por qué?</mat-label>
+              <mat-icon matSuffix
+                *ngIf="!forma.get('porqueAplicaDonacion').valid && forma.get('porqueAplicaDonacion').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('porqueAplicaDonacion').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="porqueAplicaDonacion"   />
+              <mat-error *ngIf="forma.get('porqueAplicaDonacion').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Medicamentos habitules</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('medicamentoHabitual').valid && forma.get('medicamentoHabitual').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('medicamentoHabitual').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="medicamentoHabitual" />
+              <mat-error *ngIf="forma.get('medicamentoHabitual').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Intervencion Quirurgica</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('intervencionQuirurgica').valid && forma.get('intervencionQuirurgica').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('intervencionQuirurgica').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="intervencionQuirurgica" />
+              <mat-error *ngIf="forma.get('intervencionQuirurgica').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-form-field appearance="outline">
+              <mat-label>Medicamentos con preescripción</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('medicamentosPreescripcion').valid && forma.get('medicamentosPreescripcion').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('medicamentosPreescripcion').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="medicamentosPreescripcion" />
+              <mat-error *ngIf="forma.get('medicamentosPreescripcion').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Alérgico a medicamentos</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('medicamentosAlergicos').valid && forma.get('medicamentosAlergicos').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('medicamentosAlergicos').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="medicamentosAlergicos" />
+              <mat-error *ngIf="forma.get('medicamentosAlergicos').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="33">
+            <mat-form-field appearance="outline">
+              <mat-label>Otras Alergias (Alimentos...)</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('otrasAlergias').valid && forma.get('otrasAlergias').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('otrasAlergias').valid" class="valid-icon">done</mat-icon>
+              <input placeholder="" matInput formControlName="otrasAlergias" />
+              <mat-error *ngIf="forma.get('otrasAlergias').errors?.required">
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="auto">
+            <mat-label><strong>¿Utiliza anteojos o lentes de contacto?</strong></mat-label><br>
+            <mat-radio-group aria-label="utiliza anteojos o lentes de contacto" (change)="aplicaLentes($event)">
+              <mat-radio-button [checked]="forma.get('aplicaLentes').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="!forma.get('aplicaLentes').value == true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('aplicaLentes').valid " class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('aplicaLentes').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+        </div>
+      </mat-card-content>
+
+    </form>
+  </div>
+</div>

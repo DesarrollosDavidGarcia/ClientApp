@@ -1,0 +1,188 @@
+<div class="login-register" style="background-image:url(assets/images/background/login-register.jpg);">
+  <div class="login-register-box animate__animated animate__fadeIn"
+    style="max-width: 1200px !important;width: 1200px !important;">
+    <mat-card>
+      <mat-card-content>
+        <mat-stepper #stepper>
+          <mat-step [stepControl]="formaUsuario" errorMessage="Datos de socio no completados">
+            <form [formGroup]="formaUsuario" autocomplete="off">
+              <ng-template matStepLabel>Datos de socio</ng-template>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="60" appearance="outline">
+                  <mat-label>Nombre(s)</mat-label>
+                  <mat-icon matSuffix>edit</mat-icon>
+                  <input matInput formControlName="nombres" />
+                  <mat-error>
+                    Campo nombre requerido
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Apellido paterno</mat-label>
+                  <mat-icon matSuffix>edit</mat-icon>
+                  <input matInput formControlName="apellidoPaterno" />
+                  <mat-error>
+                    Campo apellido paterno requerido
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Apellido materno</mat-label>
+                  <mat-icon matSuffix>edit</mat-icon>
+                  <input matInput formControlName="apellidoMaterno" />
+                  <mat-error>
+                    Campo apellido materno requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="40" appearance="outline">
+                  <mat-label>Teléfono</mat-label>
+                  <mat-icon matSuffix>phone</mat-icon>
+                  <input matInput formControlName="telefono" />
+                  <mat-error *ngIf="fu.telefono.touched && fu.telefono.errors">
+                    <div *ngIf="fu.telefono.errors.required">
+                      Campo requerido
+                    </div>
+                    <div *ngIf="fu.telefono.errors.pattern">
+                      Ingrese solo numeros
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="40" appearance="outline">
+                  <mat-label>Celular</mat-label>
+                  <mat-icon matSuffix>phone_iphone</mat-icon>
+                  <input matInput formControlName="celular" />
+                  <mat-error *ngIf="fu.celular.touched && fu.celular.errors">
+                    <div *ngIf="fu.celular.errors.required">
+                      Campo requerido
+                    </div>
+                    <div *ngIf="fu.celular.errors.pattern">
+                      Ingrese solo numeros
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="40" appearance="outline">
+                  <mat-label>Correo</mat-label>
+                  <mat-icon matSuffix>email</mat-icon>
+                  <input matInput formControlName="email" />
+                  <mat-error *ngIf="fu.email.touched && fu.email.errors">
+                    <div *ngIf="fu.email.errors.required">
+                      Campo requerido
+                    </div>
+                    <div *ngIf="fu.email.errors.email">
+                      Email invalido, verifique nuevamente
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="50" appearance="outline">
+                  <mat-label>Contraseña</mat-label>
+                  <input matInput formControlName="contrasena" #contrasena type="password" />
+                  <mat-icon matSuffix (click)="verContrasena(contrasena)">visibility</mat-icon>
+                  <mat-error *ngIf="fu.contrasena.touched && fu.contrasena.errors">
+                    <div *ngIf="fu.contrasena.errors.required">
+                      Contraseña requerida
+                    </div>
+                    <div *ngIf="fu.contrasena.errors.pattern">
+                      Contraseña no valida, ingrese 8 digitos, una mayuscula, caracteres o numeros
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="50" appearance="outline">
+                  <mat-label>Confirmación de contraseña</mat-label>
+                  <input matInput formControlName="confirmacionContrasena" #confirmacionContrasena type="password" />
+                  <mat-icon matSuffix (click)="verContrasena(confirmacionContrasena)">visibility</mat-icon>
+                  <mat-error *ngIf="fu.confirmacionContrasena.touched && fu.confirmacionContrasena.errors">
+                    <div *ngIf="fu.confirmacionContrasena.errors.required">
+                      Contraseña requerida
+                    </div>
+                    <div *ngIf="fu.confirmacionContrasena.errors.pattern">
+                      Contraseña no valida, ingrese 8 digitos, una mayuscula, caracteres o numeros
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <button mat-raised-button color="primary" type="button" (click)="login()">
+                  <mat-icon matSuffix>navigate_before</mat-icon>
+                  Volver a login&nbsp;&nbsp;
+                </button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="!formaUsuario.valid" matStepperNext>
+                  <mat-icon matSuffix>navigate_next</mat-icon>
+                  Siguiente&nbsp;&nbsp;
+                </button>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                *Todos los campos deben ser previamente llenados!
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="formaEmpresa" errorMessage="Datos de tu empresa no completados">
+            <form [formGroup]="formaEmpresa">
+              <ng-template matStepLabel>Datos de tu empresa</ng-template>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="auto" appearance="outline">
+                  <mat-label>Nombre de la empresa ó Razón social</mat-label>
+                  <mat-icon matSuffix>storefront</mat-icon>
+                  <input matInput formControlName="nombreEmpresa" />
+                  <mat-error>
+                    Campo nombre de empresa requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="auto" appearance="outline">
+                  <mat-label>Dirección de tu empresa</mat-label>
+                  <mat-icon matSuffix>storefront</mat-icon>
+                  <input matInput formControlName="direccion" />
+                  <mat-error>
+                    Campo sector requerido
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="25" appearance="outline">
+                  <mat-label>Teléfono o celular</mat-label>
+                  <mat-icon matSuffix>storefront</mat-icon>
+                  <input matInput formControlName="telefono" />
+                  <mat-error>
+                    Campo teléfono o celular requerido
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="25" appearance="outline">
+                  <mat-label>R.F.C</mat-label>
+                  <mat-icon matSuffix>storefront</mat-icon>
+                  <input matInput formControlName="rfc" />
+                  <mat-error>
+                    R.F.C requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-slide-toggle fxFlex="auto">¿Maneja mas de una empresa?
+                </mat-slide-toggle>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <ngx-recaptcha2 #captchaElem [siteKey]="this.siteKey" formControlName="recaptcha">
+                </ngx-recaptcha2>
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <button mat-raised-button color="primary" type="button" matStepperPrevious>
+                  <mat-icon matSuffix>navigate_before</mat-icon>
+                  Regresar&nbsp;&nbsp;
+                </button>
+                <button mat-raised-button color="primary" type="button" [disabled]="!formaEmpresa.valid"
+                  (click)="guardar()">
+                  <mat-icon matSuffix>navigate_next</mat-icon>
+                  Finalizar&nbsp;&nbsp;
+                </button>
+
+              </div>
+              <div fxLayout="row" fxLayoutGap="10px">
+                *Todos los campos deben ser previamente llenados!
+              </div>
+            </form>
+          </mat-step>
+        </mat-stepper>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

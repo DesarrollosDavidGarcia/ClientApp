@@ -1,0 +1,439 @@
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div fxFlex="70" class="animate__animated animate__fadeIn">
+    <form [formGroup]="forma" id="formaDatosBasicos" autocomplete="off">
+      <mat-card-content>
+        <strong>Datos Basicos</strong>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre(s)</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('nombre').valid && forma.get('nombre').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('nombre').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="nombre" />
+              <mat-error *ngIf="forma.get('nombre').errors?.required">
+                Campo requerido
+              </mat-error>
+              <mat-error *ngIf="forma.get('nombre').errors?.minlength">
+                El nombre debe tener al menos 3 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido Paterno</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('apellidoPaterno').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="apellidoPaterno" />
+
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido Materno</mat-label>
+              <mat-icon matSuffix *ngIf="forma.get('apellidoMaterno').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="apellidoMaterno" />
+              <mat-error>
+                Campo requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Generos</mat-label>
+              <input matInput placeholder="Generos" [matAutocomplete]="generos" formControlName="generoDescripcion"
+                (input)="buscarGenero($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionGenero()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="forma.get('generoDescripcion').valid && forma.get('generoId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #generos="matAutocomplete" (optionSelected)="generoSeleccionado($event.option.value)">
+                <mat-option *ngFor="let e of listaGeneros | filtro:textoBuscarGeneros:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="forma.get('generoDescripcion').errors?.required && forma.get('generoId').errors?.required">
+                Seleccione un genero
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex.md="50" fxFlex.sm="100" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Nacimiento</mat-label>
+              <input matInput [matDatepicker]="fechaNacimiento" formControlName="fechaNacimiento" [readonly]="true">
+              <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+              <mat-datepicker #fechaNacimiento></mat-datepicker>
+              <mat-error
+                *ngIf="forma.get('fechaNacimiento').errors?.required && forma.get('fechaNacimiento').errors?.required">
+                Seleccione su fecha de nacimiento
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+
+        <strong>Lugar de nacimiento</strong>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex="100" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="País" [matAutocomplete]="pais" formControlName="paisDescripcion"
+                (input)="buscarPais($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionPais()" style="cursor:pointer" matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="forma.get('paisDescripcion').valid && forma.get('paisId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #pais="matAutocomplete" (optionSelected)="paisSeleccionado($event.option.value)">
+                <mat-option *ngFor="let e of listaPaises | filtro:textoBuscarPaises:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="forma.get('paisDescripcion').errors?.required && forma.get('paisId').errors?.required">
+                Seleccione un país
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Estado" [matAutocomplete]="estado" formControlName="estadoDescripcion"
+                (input)="buscarEstado($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionEstado()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="forma.get('estadoDescripcion').valid && forma.get('estadoId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #estado="matAutocomplete" (optionSelected)="estadoSeleccionado($event.option.value)">
+                <mat-option *ngFor="let e of listaEstados | filtro:textoBuscarEstados:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="forma.get('estadoDescripcion').errors?.required && forma.get('estadoId').errors?.required">
+                Seleccione un estado
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Ciudad" [matAutocomplete]="ciudad" formControlName="ciudadDescripcion"
+                (input)="buscarCiudad($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionCiudad()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="forma.get('ciudadDescripcion').valid && forma.get('ciudadId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #ciudad="matAutocomplete" (optionSelected)="ciudadSeleccionado($event.option.value)">
+                <mat-option *ngFor="let e of listaCiudad | filtro:textoBuscarCiudad:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="forma.get('ciudadDescripcion').errors?.required && forma.get('ciudadId').errors?.required">
+                Seleccione una ciudad
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+        </div>
+        <strong>Estado Civil</strong>
+        <!-- [checked]="e.codigo === 'EC01'" -->
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex="70" fxFlex.md="50" fxFlex.sm="100">
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" >
+              <mat-radio-button class="example-radio-button"  
+                *ngFor="let e of listaEstadosCiviles" [value]="e" (change)="estadoCivilSeleccionado($event)" [checked]="forma.get('estadoCivilId').value == e.id">
+                {{e.descripcion}}&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+              <mat-icon *ngIf="forma.get('estadoCivilDescripcion').valid && forma.get('estadoCivilId').valid"
+                class="valid-icon">done</mat-icon>
+              <mat-error
+                *ngIf="forma.get('estadoCivilDescripcion').errors?.required && forma.get('estadoCivilId').errors?.required && !forma.get('estadoCivilDescripcion').touched">
+                Seleccione su estado civil
+              </mat-error>
+            </mat-radio-group>
+          </div>
+          <div fxFlex="30" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Correo electrónico</mat-label>
+              <mat-icon matSuffix
+                *ngIf="!forma.get('correoElectronico').valid && forma.get('correoElectronico').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('correoElectronico').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="correoElectronico" />
+              <mat-error *ngIf="forma.get('correoElectronico').hasError('required')">
+                Campo requerido
+              </mat-error>
+              <mat-error *ngIf="forma.get('correoElectronico').hasError('email')">
+                {{ validarEmail() }}
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Celular</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('celular').valid && forma.get('celular').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('celular').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="celular" />
+              <mat-error *ngIf="forma.get('celular').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Número Telefonico</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('numeroTelefonico').valid && forma.get('numeroTelefonico').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('numeroTelefonico').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="numeroTelefonico" />
+              <mat-error *ngIf="forma.get('numeroTelefonico').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>NSS (Número del IMSS)</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('numeroIMSS').valid && forma.get('numeroIMSS').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('numeroIMSS').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="numeroIMSS" />
+              <mat-error *ngIf="forma.get('numeroIMSS').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>CURP</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('curp').valid && forma.get('curp').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('curp').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="curp" />
+              <mat-error *ngIf="forma.get('curp').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+
+
+
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-label><strong>Crédito Infonavit Vigente</strong></mat-label><br>
+            <mat-radio-group aria-label="seleccione si aplica infonavit" (change)="aplicaInfonavit($event)" >
+              <mat-radio-button [checked]="forma.get('aplicaInfonavit').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="forma.get('aplicaInfonavit').value != true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('aplicaInfonavit').valid "
+                class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('aplicaInfonavit').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Número de credito</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('numeroCreditoInfonavit').valid && forma.get('numeroCreditoInfonavit').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('numeroCreditoInfonavit').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="numeroCreditoInfonavit" />
+              <mat-error *ngIf="forma.get('numeroCreditoInfonavit').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Monto del descuento a aplicar</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('montoInfonavit').valid && forma.get('montoInfonavit').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('montoInfonavit').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="montoInfonavit" />
+              <mat-error *ngIf="forma.get('montoInfonavit').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+         
+         
+        </div>
+
+
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+
+
+
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-label><strong>Aplica fonacot</strong></mat-label><br>
+            <mat-radio-group aria-label="seleccione si aplica fonacot" (change)="aplicaFonacot($event)" >
+              <mat-radio-button [checked]="forma.get('aplicaFonacot').value == true" value="1">Si</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-radio-button [checked]="forma.get('aplicaFonacot').value != true" value="2">No</mat-radio-button>
+              <mat-icon *ngIf="forma.get('aplicaFonacot').valid "
+                class="valid-icon">done</mat-icon>
+            </mat-radio-group>
+            <mat-error *ngIf="forma.get('aplicaFonacot').errors?.required">
+              Seleccione una opción
+            </mat-error>
+          </div>
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Monto del descuento a aplicar</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('montoFonacot').valid && forma.get('montoFonacot').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('montoFonacot').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="montoFonacot" />
+              <mat-error *ngIf="forma.get('montoFonacot').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+
+         
+         
+        </div>
+
+
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>RFC</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('rfc').valid && forma.get('rfc').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('rfc').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="rfc" />
+              <mat-error *ngIf="forma.get('rfc').errors?.required">
+                Campo requerido
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+          
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Grado escolaridad" [matAutocomplete]="gradEsc" formControlName="gradoEscolaridadDescripcion"
+                (input)="buscarGradoEscolaridad($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionGradoEscolaridad()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="forma.get('gradoEscolaridadDescripcion').valid && forma.get('gradoEscolaridadId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #gradEsc="matAutocomplete" (optionSelected)="gradoEscolSeleccionado($event.option.value)">
+                <mat-option *ngFor="let e of listaGradosEscolares | filtro:textoGradoEscolaridad:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="forma.get('gradoEscolaridadDescripcion').errors?.required && forma.get('gradoEscolaridadId').errors?.required">
+                Seleccione una opción
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="25" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Universidad</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('universidad').valid && forma.get('universidad').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('universidad').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="universidad" />
+
+
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+          <div fxFlex="auto" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Bancos" [matAutocomplete]="banco" formControlName="bancoDescripcion"
+                (input)="buscarBancos($event)">
+
+              <mat-icon matPrefix>search</mat-icon>
+              <div matSuffix style="display:flex">
+                <mat-icon (click)="limpiarSeleccionBanco()" style="cursor:pointer"
+                  matTooltip='Limpiar'>clear</mat-icon>
+                <mat-icon *ngIf="forma.get('bancoDescripcion').valid && forma.get('bancoId').valid"
+                  class="valid-icon">done</mat-icon>
+              </div>
+              <mat-autocomplete #banco="matAutocomplete" (optionSelected)="bancoSeleccionado($event.option.value)">
+                <mat-option *ngFor="let e of listaBancos | filtro:textoBuscarBancos:'descripcion'" [value]="e">
+                  <span>{{e.descripcion}}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="forma.get('bancoDescripcion').errors?.required && forma.get('bancoId').errors?.required">
+                Seleccione una opción
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="auto" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Cuenta</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('cuenta').valid && forma.get('cuenta').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('cuenta').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="cuenta" />
+
+
+            </mat-form-field>
+          </div>
+          <div fxFlex="auto" fxFlex.md="50" fxFlex.sm="100">
+            <mat-form-field appearance="outline">
+              <mat-label>CLABE</mat-label>
+              <mat-icon matSuffix *ngIf="!forma.get('clabe').valid && forma.get('clabe').touched"
+                class="invalid-icon">clear</mat-icon>
+              <mat-icon matSuffix *ngIf="forma.get('clabe').valid" class="valid-icon">done</mat-icon>
+              <input matInput formControlName="clabe" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.lt-md="column" fxLayout.lt-sm="column">
+
+          <p style="color: red; font-size: 10px;">*En caso de contar con crédito Infonavit vigente y no notificarlo en este formato, se aplicarán los
+            descuentos correspondientes <b>SIN PLAZOS</b> en cuanto el infonavit lo requiera. Si el Infonavit aplica multa,
+            esta será absorbida por el colaborador (55% mensual). </p>
+        </div>
+      </mat-card-content>
+
+    </form>
+
+
+  </div>
+</div>

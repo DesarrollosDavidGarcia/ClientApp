@@ -1,0 +1,101 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+
+    <mat-card>
+      <mat-toolbar color="primary">
+        <mat-toolbar-row class="toolbarBack">
+          <mat-card-title>Catálogo de usuarios</mat-card-title>
+          <span></span>
+          <span class="example-spacer"></span>
+          <span>
+            <button mat-icon-button (click)="importar()" matTooltip='Importar'>
+              <mat-icon>cloud_upload</mat-icon>
+            </button>
+            <button mat-icon-button (click)="abrirForma()" matTooltip='Nuevo'>
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="descargarExcel()" matTooltip='Descargar'>
+              <mat-icon>cloud_download</mat-icon>
+            </button>
+          </span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-card-content>
+        <div class="responsive-table">
+          <mat-table #table [dataSource]="fuenteDatos"  class="animate__animated animate__fadeIn">
+            <ng-container matColumnDef="foto">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado">Foto Perfíl</mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <img *ngIf="row.fotoPerfil!=''" mat-card-image [src]="row.fotoPerfil" width="50" height="50" style=" border-radius: 50%;
+                height: 46px;
+                object-fit: cover;
+                object-position: center;
+                width: 46px;
+                padding-top: 10px;
+                " />
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="codigo">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Código </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Código: </span>
+                {{row.codigo}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="nombres">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Nombre(s) </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Nombre(s): </span>
+                {{row.nombre}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="apellidoPaterno">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Apellido Paterno </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Apellido Paterno: </span>
+                {{row.apellidoPaterno}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="apellidoMaterno" >
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Apellido Materno </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Apellido Materno: </span>
+                {{row.apellidoMaterno}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="activo" >
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Activo </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Activo: </span>
+                <mat-checkbox [checked]="row.activo" (click)="$event.stopPropagation()"
+                  (change)="cambiarEstado(chk.checked, row)" #chk></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="opciones">
+              <mat-header-cell *matHeaderCellDef class="opciones-derecha">Opciones</mat-header-cell>
+              <mat-cell *matCellDef="let row" class="opciones-derecha">
+                <span class="mobile-label">Opciones: </span>
+                <button mat-button [matMenuTriggerFor]="menu" matTooltip="Opciones">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="abrirForma(row.id)">
+                    <mat-icon>edit</mat-icon>&nbsp;Editar
+                  </button>
+                  <button mat-menu-item (click)="eliminar(row)">
+                    <mat-icon>delete</mat-icon>&nbsp;Eliminar
+                  </button>
+                </mat-menu>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columnasMostradas"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnasMostradas;"></mat-row>
+          </mat-table>
+          <mat-paginator #paginator [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+          </mat-paginator>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

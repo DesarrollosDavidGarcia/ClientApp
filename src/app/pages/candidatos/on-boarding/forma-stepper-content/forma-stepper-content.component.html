@@ -1,0 +1,139 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-stepper class="example-stepper">
+      <mat-step label="Datos Generales">
+
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Datos Personales
+              </mat-panel-title>
+              <mat-panel-description>
+                {{this.mensajeFormularioBasico}} &nbsp;
+                <mat-icon matSuffix *ngIf="disableBotonSiguienteDatosBasicos" class="valid-icon">done</mat-icon>
+                <mat-icon matSuffix *ngIf="!disableBotonSiguienteDatosBasicos">edit</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-forma-datos-basicos></app-forma-datos-basicos>
+            <mat-action-row>
+              <button mat-button color="primary" [disabled]="!disableBotonSiguienteDatosBasicos"
+                (click)="nextStep()" >Siguiente</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"
+            [disabled]="!habilitaSeccionDireccionActual" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Dirección actual
+              </mat-panel-title>
+              <mat-panel-description>
+                {{this.mensajeFormularioDireccionActual}} &nbsp;
+                <mat-icon matSuffix *ngIf="disableBotonSiguienteDireccionActual" class="valid-icon">done</mat-icon>
+                <mat-icon matSuffix *ngIf="!disableBotonSiguienteDireccionActual">edit</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-forma-direccion-actual></app-forma-direccion-actual>
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+              <button mat-button color="primary" (click)="nextStep()"
+                [disabled]="!disableBotonSiguienteDireccionActual">Siguiente</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)"
+            [disabled]="!habilitaSeccionContactosFamiliares" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Contactos
+              </mat-panel-title>
+              <mat-panel-description>
+                {{this.mensajeFormularioContactos}} &nbsp;
+                <mat-icon matSuffix *ngIf="disableBotonSiguienteContactosFamiliares" class="valid-icon">done</mat-icon>
+                <mat-icon matSuffix *ngIf="!disableBotonSiguienteContactosFamiliares">edit</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-forma-contactos></app-forma-contactos>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+              <button mat-button color="primary"
+                [disabled]="!disableBotonSiguienteContactosFamiliares" (click)="nextStep()" matStepperNext>Continuar</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+      </mat-step>
+      <mat-step label="Estado de Salud">
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                General
+              </mat-panel-title>
+              <mat-panel-description>
+                {{this.mensajeFormularioDatosGenerales}} &nbsp;
+                <mat-icon matSuffix *ngIf="disableBotonSiguienteGenerales" class="valid-icon">done</mat-icon>
+                <mat-icon matSuffix *ngIf="!disableBotonSiguienteGenerales">edit</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-general></app-general>
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()" matStepperPrevious>Anterior</button>
+              <button mat-button color="primary" [disabled]="!disableBotonSiguienteGenerales"
+                (click)="nextStep()">Siguiente</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Hábitos
+              </mat-panel-title>
+              <mat-panel-description>
+                {{this.mensajeFormularioHabitos}}&nbsp;
+                <mat-icon matSuffix *ngIf="disableBotonSiguienteHabitos" class="valid-icon">done</mat-icon>
+                <mat-icon matSuffix *ngIf="!disableBotonSiguienteHabitos">edit</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-habitos></app-habitos>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+              <button mat-button color="primary" (click)="nextStep()"
+                [disabled]="!disableBotonSiguienteHabitos">Siguiente</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Historial Clinico
+              </mat-panel-title>
+              <mat-panel-description>
+                {{this.mensajeFormularioHistoralClinicoCandidato}}&nbsp;
+                <mat-icon matSuffix *ngIf="disableBotonSiguienteHabitos" class="valid-icon">done</mat-icon>
+                <mat-icon matSuffix *ngIf="!disableBotonSiguienteHabitos">edit</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-forma-historial-clinico></app-forma-historial-clinico>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+              <button mat-button color="primary"
+                [disabled]="!disableBotonSiguienteHCPF" (click)="nextStep()" matStepperNext>Continuar</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+      </mat-step>
+      <mat-step label="Carga de Documentos">
+        <app-documentacion></app-documentacion>
+      </mat-step>
+
+
+    </mat-stepper>
+  </div>
+</div>

@@ -1,0 +1,192 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+
+    <mat-card>
+      <!-- <mat-toolbar color="primary">
+        <mat-toolbar-row class="toolbarBack">
+          <mat-card-title>Historial Seguimiento Candidato</mat-card-title>
+          <span></span>
+          <span class="example-spacer"></span>
+          <span>
+          </span>
+        </mat-toolbar-row>
+      </mat-toolbar> -->
+      <mat-card-content>
+        <div fxLayout="row wrap">
+
+          <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card class="bg-info">
+              <mat-card-content>
+                <div class="d-flex no-block align-items-center">
+                  <div class="stats">
+                    <h3 class="text-white m-0">Total de Candidatos</h3>
+                    <h1 class="text-white m-0">{{this.totalCandidatos}}</h1>
+                  </div>
+                  <div class="ml-auto" style="height: 84px; width: 100px">
+                    <div class="d-flex flex-column">
+                        <mat-icon style="font-size: 75px; width: 100%; height: 100%; color: white;">face</mat-icon>
+                    </div>
+
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card class="bg-warning">
+              <mat-card-content>
+                <div class="d-flex no-block align-items-center">
+                  <div class="stats">
+                    <h3 class="text-white m-0">En Progreso</h3>
+                    <h1 class="text-white m-0">{{this.enProgreso}}</h1>
+                  </div>
+                  <div class="ml-auto" style="height: 84px; width: 100px">
+                    <div class="d-flex flex-column">
+                      <mat-icon style="font-size: 75px; width: 100%; height: 100%; color: white;">border_color</mat-icon>
+                    </div>
+
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card class="bg-danger">
+              <mat-card-content>
+                <div class="d-flex no-block align-items-center">
+                  <div class="stats">
+                    <h3 class="text-white m-0">Cancelados</h3>
+                    <h1 class="text-white m-0">{{this.cancelados}}</h1>
+                  </div>
+                  <div class="ml-auto" style="height: 84px; width: 100px">
+                    <div class="d-flex flex-column">
+                      <mat-icon style="font-size: 75px; width: 100%; height: 100%; color: white;">cancel</mat-icon>
+                    </div>
+
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card class="bg-success">
+              <mat-card-content>
+                <div class="d-flex no-block align-items-center">
+                  <div class="stats">
+                    <h3 class="text-white m-0">Terminados</h3>
+                    <h1 class="text-white m-0">{{this.terminados }}</h1>
+                  </div>
+                  <div class="ml-auto" style="height: 84px; width: 100px">
+                    <div class="d-flex flex-column">
+                      <mat-icon style="font-size: 75px; width: 100%; height: 100%; color: white;">auto_awesome</mat-icon>
+                    </div>
+
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+        </div>
+
+        <div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar por: </mat-label>
+            <mat-icon matSuffix (click)="limpiarFiltro()" style="cursor:pointer" matTooltip="Limpiar">clear</mat-icon>
+            <input matInput (keyup)="filtrar($event.target.value)" placeholder="Filtro Por:  Nombre  /  Apellido "
+              #filtro>
+          </mat-form-field>
+          <div class="responsive-table">
+            <mat-table #table [dataSource]="fuenteDatos" class="animate__animated animate__fadeIn">
+              <ng-container matColumnDef="nombre">
+                <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Nombre </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="contenido-centrado">
+                  <span class="mobile-label">Nombre: </span>
+                  {{row.nombre}}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="apellidoPaterno">
+                <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Apellido Paterno </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="contenido-centrado">
+                  <span class="mobile-label">Apellido Paterno: </span>
+                  {{row.apellidoPaterno}}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="apellidoMaterno">
+                <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Apellido Materno </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="contenido-centrado">
+                  <span class="mobile-label">Apellido Materno: </span>
+                  {{row.apellidoMaterno}}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="avance">
+                <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Avance </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="contenido-centrado">
+                  <span class="mobile-label">Avance: </span>
+                
+                  <mat-chip-list aria-label="Fish selection">
+                    <mat-chip [ngClass]="obtenerAvanceColor(row.avance)">  {{row.avance}}%</mat-chip>
+                  </mat-chip-list>
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="cantidadDocumentos">
+                <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Cantidad Documentos </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="contenido-centrado">
+                  <span class="mobile-label">Cantidad Documentos: </span>
+
+                  {{row.documentosCandidato.length}}
+                 
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="fechaProbableIngreso">
+                <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Fecha Probable de Ingreso </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="contenido-centrado">
+                  <span class="mobile-label">Fecha Probable de Ingreso: </span>
+
+                  {{row.fechaProbableIngreso | date: 'dd/MM/yyyy'}}
+                 
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="estatusDescripcion">
+                <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Estatus </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="contenido-centrado">
+                  <span class="mobile-label">Estatus: </span>
+                  {{row.estatusDescripcion}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="opciones">
+                <mat-header-cell *matHeaderCellDef class="opciones-derecha">Opciones</mat-header-cell>
+                <mat-cell *matCellDef="let row" class="opciones-derecha">
+                  <span class="mobile-label">Opciones: </span>
+                  <button mat-button [matMenuTriggerFor]="menu" matTooltip="Opciones">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="candidato(row)">
+                      <mat-icon>edit</mat-icon>&nbsp;Editar
+                    </button>
+                    <button mat-menu-item (click)="cancelarSeguimiento(row)">
+                      <mat-icon>cancel</mat-icon>&nbsp;Cancelar
+                    </button>
+                    <button mat-menu-item *ngIf="row.documentosCandidato.length>0" (click)="descargarDocumentoZIP(row)">
+                      <mat-icon>folder_zip</mat-icon>&nbsp;Descargar a ZIP
+                    </button>
+                  </mat-menu>
+                </mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="columnasMostradas"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: columnasMostradas;"></mat-row>
+            </mat-table>
+            <mat-paginator #paginator [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+            </mat-paginator>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

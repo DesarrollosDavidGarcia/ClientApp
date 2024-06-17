@@ -1,0 +1,34 @@
+<div class="login-register" style="background-image:url(assets/images/background/login-register.jpg);">
+  <div class="login-register-box animate__animated animate__fadeIn" style="max-width: 550px !important;width: 550px !important;">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="text-center">
+            <img alt="homepage" src="assets/images/logo-icon.png">
+            <h4 class="m-t-0">Recuperar contraseña</h4>
+          </div>
+          <p class="text-center font-14">Ingresa tu email</p>
+
+          <div fxLayout="column" fxLayoutAlign="space-around">
+            <div class="pb-1">
+              <mat-form-field style="width: 100%">
+                <input matInput placeholder="Email" type="email" [formControl]="form.controls['email']">
+              </mat-form-field>
+              <small *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched"
+                class="text-danger support-text">Ingresa tu email.</small>
+              <small *ngIf="form.controls['email'].errors?.email && form.controls['email'].touched"
+                class="text-danger support-text">Email inválido</small>
+            </div>
+            <button mat-raised-button color="primary" type="submit" class="btn-block btn-lg m-t-20"
+              [disabled]="!form.valid"> <mat-icon matSuffix>send</mat-icon>&nbsp;Enviar</button>
+            <button mat-raised-button color="primary" type="button" class="btn-block btn-lg m-t-20" (click)="login()">
+              <mat-icon matSuffix>navigate_before</mat-icon>
+              Volver a login&nbsp;&nbsp;
+            </button>
+          </div>
+
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

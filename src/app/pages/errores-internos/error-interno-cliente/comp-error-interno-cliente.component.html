@@ -1,0 +1,64 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+
+    <mat-card>
+      <mat-toolbar color="primary">
+        <mat-toolbar-row class="toolbarBack">
+          <mat-card-title>Reporte interno de errores de cliente</mat-card-title>
+          <span></span>
+          <span class="example-spacer"></span>
+          <span>
+            <!-- <button mat-icon-button (click)="abrirForma()" matTooltip='Nuevo'>
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="descargarExcel()" matTooltip='Descargar'>
+              <mat-icon>cloud_download</mat-icon>
+            </button> -->
+          </span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-card-content>
+
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Buscar por: </mat-label>
+          <mat-icon matSuffix (click)="limpiarFiltro()" style="cursor:pointer" matTooltip="Limpiar">clear</mat-icon>
+          <input matInput (keyup)="filtrar($event.target.value)" placeholder=" Código  /  Descripción " #filtro>
+        </mat-form-field> -->
+
+
+        <div class="responsive-table">
+          <mat-table #table [dataSource]="fuenteDatos"  class="animate__animated animate__fadeIn">
+            <ng-container matColumnDef="entryDate">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Día </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                {{row.entryDate| date: 'dd/MM/yyyy hh:mm a'}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="message">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Mensaje </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                {{row.message}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="level">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Nivel </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                {{row.level}}
+              </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="columnasMostradas"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnasMostradas;"></mat-row>
+          </mat-table>
+          <mat-paginator #paginator [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+          </mat-paginator>
+        </div>
+
+
+
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

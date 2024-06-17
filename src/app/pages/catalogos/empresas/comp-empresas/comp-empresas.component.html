@@ -1,0 +1,79 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+
+    <mat-card>
+      <mat-toolbar color="primary">
+        <mat-toolbar-row class="toolbarBack">
+          <mat-card-title>Catálogo de Empresas</mat-card-title>
+          <span></span>
+          <span class="example-spacer"></span>
+          <span>
+            <button mat-icon-button (click)="abrirForma()" matTooltip='Nuevo'>
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="importar()" matTooltip='Importar'>
+              <mat-icon>cloud_upload</mat-icon>
+            </button>
+            <button mat-icon-button (click)="descargarExcel()" matTooltip='Descargar'>
+              <mat-icon>cloud_download</mat-icon>
+            </button>
+          </span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Buscar por: </mat-label>
+          <mat-icon matSuffix (click)="limpiarFiltro()" style="cursor:pointer" matTooltip="Limpiar">clear</mat-icon>
+          <input matInput (keyup)="filtrar($event.target.value)" placeholder=" Código  /  Descripción " #filtro>
+        </mat-form-field>
+        <div class="responsive-table">
+          <mat-table #table [dataSource]="fuenteDatos" class="animate__animated animate__fadeIn">
+            <ng-container matColumnDef="codigo">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Código </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Código: </span>
+                {{row.codigo}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="descripcion">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Descripción </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Descripción: </span>
+                {{row.descripcion}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="activo">
+              <mat-header-cell *matHeaderCellDef class="contenido-centrado"> Activo </mat-header-cell>
+              <mat-cell *matCellDef="let row" class="contenido-centrado">
+                <span class="mobile-label">Activo: </span>
+                <mat-checkbox [checked]="row.activo" (click)="$event.stopPropagation()"
+                  (change)="cambiarEstado(chk.checked, row)" #chk></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="opciones">
+              <mat-header-cell *matHeaderCellDef class="opciones-derecha">Opciones</mat-header-cell>
+              <mat-cell *matCellDef="let row" class="opciones-derecha">
+                <span class="mobile-label">Opciones: </span>
+                <button mat-button [matMenuTriggerFor]="menu" matTooltip="Opciones">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="abrirForma(row)">
+                    <mat-icon>edit</mat-icon>&nbsp;Editar
+                  </button>
+                  <button mat-menu-item (click)="eliminar(row)">
+                    <mat-icon>delete</mat-icon>&nbsp;Eliminar
+                  </button>
+                </mat-menu>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columnasMostradas"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnasMostradas;"></mat-row>
+          </mat-table>
+          <mat-paginator #paginator [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

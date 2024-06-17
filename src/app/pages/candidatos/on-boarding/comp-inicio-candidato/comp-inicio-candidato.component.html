@@ -1,0 +1,74 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+
+
+        <div fxLayout="row wrap">
+          <!-- Card column -->
+          <div fxFlex.gt-lg="25" fxFlex.gt-md="40" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card class="oh text-center little-profile">
+              <img mat-card-image src="assets/images/background/profile-bg.jpg" class="profile-bg-height"
+                alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <div class="pro-img">
+                  <img src="assets/images/users/4.jpg" width="100" alt="user">
+                </div>
+                <h3 class="m-b-0">{{nombreCompleto}}</h3>
+                <h6 class="m-t-0 ">Web Designer &amp; Developer</h6>
+                <mat-card-actions>
+                  <button mat-raised-button color="warn" (click)="irSeguimiento()">Continua con la recepción de la
+                    información</button>
+                </mat-card-actions>
+                <div fxLayout="row" fxLayoutWrap="wrap" class="m-t-30">
+                  <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="33.33%" fxFlex="100">
+                    <h3 class="m-0 font-light">{{ this.seguimiento.fechaProbableIngreso | date:'dd/MM/yyyy'}}</h3>
+                    <small>Fecha de Ingreso</small>
+                  </div>
+                  <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="33.33%" fxFlex="100">
+                    <h3 class="m-0 font-light">{{ this.avance}}%</h3>
+                    <small>Avance</small>
+                  </div>
+                  <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="33.33%" fxFlex="100">
+                    <h3 class="m-0 font-light">1</h3>
+                    <small>Mensajes</small>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <!-- Card column -->
+          <!-- Card column -->
+          <div fxFlex.gt-lg="75" fxFlex.gt-md="60" fxFlex.gt-xs="100" fxFlex="100">
+
+
+
+
+            <mat-card class="bg-info">
+              <mat-card-content>
+                <div class="d-flex no-block align-items-center">
+                  <div class="stats">
+                    <h3 class="text-white m-0">¡Bienvenid@! </h3>
+                  </div>
+                  <div class="ml-auto" style="height: 84px; width: 100px">
+                    <div class="d-flex flex-column">
+                      <mat-icon style="font-size: 75px; width: 100%; height: 100%; color: white;"> <img
+                          src="/assets/images/background/businessmen.png" alt="user" class="welcome-img" /></mat-icon>
+                    </div>
+                  </div>
+                </div>
+                <div style="color: white;">
+                  <p>¡Que tal!, ayudanos a conocerte e integrar tu información basica a nuestro sistema para que
+                    ingreses al puesto solicitado.</p>
+                  <p>Recuerda, si tienes alguna duda, comunicate con nosotros.</p>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

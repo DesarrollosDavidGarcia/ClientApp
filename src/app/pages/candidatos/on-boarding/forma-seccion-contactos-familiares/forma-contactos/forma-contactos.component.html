@@ -1,0 +1,294 @@
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div fxFlex="100" class="animate__animated animate__fadeIn">
+
+    <mat-card-content>
+      <div>
+        <span>Habilitar contacto de emergencia al menos a 1 persona (preferentemente familiar)</span>
+      </div>
+
+      <div fxLayout="column">
+        <table mat-table class="full-width-table animate__animated animate__fadeIn" [dataSource]="fuenteDatosContactos" matSort
+          aria-label="Elements">
+          <ng-container matColumnDef="noLinea">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center !important;">No.</th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" style="text-align: center !important;">{{row.linea}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>
+              Nombre
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input class="colorFuente" matInput [value]="row.nombre" (click)="$event.stopPropagation()" (change)="actualizaLinea(
+                      row.linea,
+                      $event.target.value,
+                      row.relacionId,
+                      row.relacionDescripcion,
+                      row.celular,
+                      row.telefonoTrabajo,
+                      row.esContactoEmergencia
+                       )" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="relacion">
+            <th mat-header-cell *matHeaderCellDef>
+              Relacion
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input matInput placeholder="Relación" [matAutocomplete]="relacionParental"
+                  [value]="row.relacionDescripcion" (input)="buscarRelacionParental($event)">
+                <mat-icon matPrefix>search</mat-icon>
+                <div matSuffix style="display:flex">
+                  <mat-icon (click)="limpiarSeleccionRelacionParental(row.linea)" style="cursor:pointer"
+                    matTooltip='Limpiar'>clear</mat-icon>
+                </div>
+                <mat-autocomplete #relacionParental="matAutocomplete"
+                  (optionSelected)="relacionParentalSeleccionado(row.linea, $event.option.value)">
+                  <mat-option *ngFor="let e of listaRelacionParental | filtro:textoBuscarRelacionParental:'descripcion'"
+                    [value]="e">
+                    <span>{{e.descripcion}}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error>
+                  {{errorRelacionParental}}
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="celular">
+            <th mat-header-cell *matHeaderCellDef>
+              Celular
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input class="colorFuente" matInput [value]="row.celular" (click)="$event.stopPropagation()" (change)="actualizaLinea(
+                      row.linea,
+                      row.nombre,
+                      row.relacionId,
+                      row.relacionDescripcion,
+                      $event.target.value,
+                      row.telefonoTrabajo,
+                      row.esContactoEmergencia
+                       )" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="telefonoTrabajo">
+            <th mat-header-cell *matHeaderCellDef>
+              Telefono de Trabajo
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input class="colorFuente" matInput [value]="row.telefonoTrabajo" (click)="$event.stopPropagation()"
+                  (change)="actualizaLinea(
+                      row.linea,
+                      row.nombre,
+                      row.relacionId,
+                      row.relacionDescripcion,
+                      row.celular,
+                      $event.target.value,
+                      row.esContactoEmergencia
+                       )" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="contactoEmergencia">
+            <th mat-header-cell *matHeaderCellDef>
+              Contacto de emergencia
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+
+              <mat-slide-toggle [checked]=" row.esContactoEmergencia" (change)="actualizaLinea(
+                  row.linea,
+                  row.nombre,
+                  row.relacionId,
+                  row.relacionDescripcion,
+                  row.celular,
+                  row.telefonoTrabajo,
+                  $event.checked
+                   )">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="contenido-centrado" style="width: 200px;">Acciones
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" class="contenido-centrado" style="width: 150px;">
+              <button mat-mini-fab color="primary" matTooltip="Agregar nuevo" [disabled]="!row.agregarNuevo" (click)="agregarLinea()">
+                <mat-icon>add</mat-icon>
+              </button>&nbsp;
+              <button mat-mini-fab color="primary" matTooltip="Eliminar" (click)="removerLinea(row.linea)">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnasMostradasContactos"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnasMostradasContactos"></tr>
+        </table>
+      </div>
+
+      <div>
+        <br>
+        <span>Habilitar boton de beneficiario a 1 o 2 familiares directos (mayores de edad) en contrato-nómina</span>
+        <br>
+
+      </div>
+      <div fxLayout="column">
+        <table mat-table class="full-width-table animate__animated animate__fadeIn" [dataSource]="fuenteDatosFamiliares" matSort
+          aria-label="Elements">
+          <ng-container matColumnDef="noLinea">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center !important;">No.</th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" style="text-align: center !important;">{{row.linea}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="parentesco">
+            <th mat-header-cell *matHeaderCellDef>
+              Parentesco
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input matInput placeholder="Parentescos" [matAutocomplete]="parentesco"
+                  [value]="row.parentescoDescripcion" (input)="buscarParentesco($event)" required>
+                <mat-icon matPrefix>search</mat-icon>
+                <div matSuffix style="display:flex">
+                  <mat-icon (click)="limpiarSeleccionParentesco(row.linea)" style="cursor:pointer"
+                    matTooltip='Limpiar'>clear</mat-icon>
+                </div>
+                <mat-autocomplete #parentesco="matAutocomplete"
+                  (optionSelected)="parentescoSeleccionado(row.linea, $event.option.value)">
+                  <mat-option *ngFor="let e of listaParentescos | filtro:textoBuscarParentesco:'descripcion'"
+                    [value]="e">
+                    <span>{{e.descripcion}}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="parentesco.invalid && (parentesco.dirty || parentesco.touched)">
+                   Dato requerido
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>
+              Nombre
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input class="colorFuente" matInput [value]="row.nombre" (click)="$event.stopPropagation()" (change)="actualizaLineaFamiliares(
+                      row.linea,
+                      row.parentescoId,
+                      row.parentescoDescripcion,
+                      $event.target.value,
+                      row.fechaNacimiento,
+                      row.vive,
+                      row.celular,
+                      row.esBeneficiario
+                       )" required/>
+                       <mat-error *ngIf="row.nombre.invalid && (row.nombre.dirty || row.nombre.touched)">
+                        Nombre es requerido
+                      </mat-error>
+              </mat-form-field>
+
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fechaNacimiento">
+            <th mat-header-cell *matHeaderCellDef>
+              Fecha Nacimiento
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input matInput [matDatepicker]="fechaNacimiento" (click)="$event.stopPropagation()" (dateChange)="actualizaLineaFamiliares(
+                  row.linea,
+                  row.parentescoId,
+                  row.parentescoDescripcion,
+                  row.nombre,
+                  $event.target.value,
+                  row.vive,
+                  row.celular,
+                  row.esBeneficiario
+                       )"  [value]="row.fechaNacimiento" [readonly]="true">
+                <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+                <mat-datepicker #fechaNacimiento></mat-datepicker>
+                
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="vive">
+            <th mat-header-cell *matHeaderCellDef>
+              Vive
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-slide-toggle [checked]=" row.vive" (change)="actualizaLineaFamiliares(
+                row.linea,
+                row.parentescoId,
+                row.parentescoDescripcion,
+                row.nombre,
+                row.fechaNacimiento,
+                $event.checked,
+                row.celular,
+                row.esBeneficiario
+                 )">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="celular">
+            <th mat-header-cell *matHeaderCellDef>
+              Celular
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+              <mat-form-field appearance="outline" style="width: 95%;">
+                <input class="colorFuente" matInput [value]="row.celular" (click)="$event.stopPropagation()" (change)="actualizaLineaFamiliares(
+                  row.linea,
+                  row.parentescoId,
+                  row.parentescoDescripcion,
+                  row.nombre,
+                  row.fechaNacimiento,
+                  row.vive,
+                  $event.target.value,
+                  row.esBeneficiario
+                       )" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="esBeneficiario">
+            <th mat-header-cell *matHeaderCellDef>
+              Es Beneficiario
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row">
+
+              <mat-slide-toggle [checked]=" row.esBeneficiario" (change)="actualizaLineaFamiliares(
+                row.linea,
+                row.parentescoId,
+                row.parentescoDescripcion,
+                row.nombre,
+                row.fechaNacimiento,
+                row.vive,
+                row.celular,
+                $event.checked
+                   )">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="contenido-centrado" style="width: 200px;">Acciones
+            </th>
+            <td class="colorFuente" mat-cell *matCellDef="let row" class="contenido-centrado" style="width: 150px;">
+              <button mat-mini-fab color="primary" matTooltip="Agregar nuevo" [disabled]="!row.agregarNuevo" (click)="agregarLineaFamiliares()">
+                <mat-icon>add</mat-icon>
+              </button>&nbsp;
+              <button mat-mini-fab color="primary" matTooltip="Eliminar" (click)="removerLineaFamiliares(row.linea)">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnasMostradasFamiliares"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnasMostradasFamiliares"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+
+
+  </div>
+</div>

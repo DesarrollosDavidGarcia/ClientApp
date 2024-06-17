@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+  <span>Mensaje</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button matTooltip="Cerrar" mat-dialog-close matTooltip='Cerrar'>
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-toolbar>
+<div><br /></div>
+<div fxLayout="row wrap"  class="animate__animated animate__fadeIn">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-dialog-content>
+      <mat-card-subtitle>{{this.result.message}}</mat-card-subtitle>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button mat-dialog-close color="accent">
+        <mat-icon>clear</mat-icon>&nbsp;Cancelar
+      </button>
+      <button mat-raised-button (click)="guardar()" color="primary">
+        <mat-icon>done</mat-icon>&nbsp;Ok
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+/* You can add global styles to this file, and also import other style files */
+
+.mat-toolbar.mat-primary {
+  height: 51px;
+}
+
+@media (min-width: 1024px)
+{
+  .minisidebar #snav.mat-sidenav:not(:hover) {
+      width: 75px;
+  }
+
+}
+
+
+.page-breadcrumb{
+  height: 15px;
+}
+
+.page-modulo{
+  height: 100px;
+
+}
+
+.contenedor-tabla {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+
+// .mat-form-field-flex > .mat-form-field-infix { padding: 0.3em 0px !important;}
+// .mat-form-field-label-wrapper { top: -1.4em !important; }
+
+// .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+//   transform: translateY(-1.0em) scale(.73) !important;
+//   width: 133.33333% !important;
+// }
+
+ 
+
+.opciones-derecha{
+  text-align: right !important;
+  justify-content: flex-end;
+}
+
+.mat-icon {
+  vertical-align: middle !important;
+}
+
+.contenido-centrado{
+  text-align: center !important;
+  justify-content: center;
+}
+
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 2000px;
+  min-width: 275px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mobile-label {
+  display: none;
+}
+
+@media(max-width: 600px) {
+  .mobile-label {
+    width: 95%;
+    display: inline-block;
+        font-weight: bold;
+        text-align: justify !important;
+        padding: 5px;
+  }
+
+  .mat-header-row {
+    display: none;
+  }
+
+  .mat-row {
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+  }
+
+ 
+}
+
+
